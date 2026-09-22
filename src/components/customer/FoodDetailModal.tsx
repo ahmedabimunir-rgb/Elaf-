@@ -138,7 +138,7 @@ export const FoodDetailModal: React.FC<FoodDetailModalProps> = ({ dish, onClose 
                         </div>
 
                         <span className="text-xs sm:text-sm font-bold text-amber-400">
-                          +${addon.price.toFixed(2)}
+                          +{addon.price.toLocaleString()} ETB
                         </span>
                       </div>
                     );
@@ -198,10 +198,10 @@ export const FoodDetailModal: React.FC<FoodDetailModalProps> = ({ dish, onClose 
             <span>Add to Cart</span>
             <div className="flex items-center gap-2">
               <span className="text-xs text-rose-200 font-normal">
-                (${unitPrice.toFixed(2)} each)
+                ({unitPrice.toLocaleString()} ETB each)
               </span>
               <span className="font-black text-base font-sans">
-                ${totalPrice.toFixed(2)}
+                {totalPrice.toLocaleString()} ETB
               </span>
             </div>
           </button>

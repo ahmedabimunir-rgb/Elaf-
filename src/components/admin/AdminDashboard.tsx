@@ -196,8 +196,8 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
         isPopular: itemForm.isPopular,
         ingredients,
         addons: [
-          { id: `add-${Date.now()}-1`, name: 'Special House Sauce Dip', price: 1.5, isAvailable: true },
-          { id: `add-${Date.now()}-2`, name: 'Extra Melted Cheese', price: 2.0, isAvailable: true },
+          { id: `add-${Date.now()}-1`, name: 'Special House Sauce Dip', price: 50, isAvailable: true },
+          { id: `add-${Date.now()}-2`, name: 'Extra Melted Cheese', price: 100, isAvailable: true },
         ],
       });
     }
@@ -238,7 +238,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
     if (!newCouponCode.trim()) return;
     StoreService.createCoupon({
       code: newCouponCode.trim(),
-      description: `${newCouponVal}${newCouponType === 'PERCENTAGE' ? '%' : '$'} discount on orders over $${newCouponMin}`,
+      description: `${newCouponVal}${newCouponType === 'PERCENTAGE' ? '%' : ' ETB'} discount on orders over ${newCouponMin} ETB`,
       discountType: newCouponType,
       discountValue: Number(newCouponVal),
       minOrderAmount: Number(newCouponMin),
@@ -432,7 +432,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                   <DollarSign className="w-4 h-4 text-emerald-400" />
                 </span>
                 <p className="text-2xl sm:text-3xl font-bold font-sans text-white">
-                  ${totalRevenue.toFixed(2)}
+                  {totalRevenue.toLocaleString()} ETB
                 </p>
                 <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
                   <TrendingUp className="w-3 h-3" /> Live verified orders
@@ -541,7 +541,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                         <td className="py-3 px-4">
                           {ord.items.length} items ({ord.items[0]?.name})
                         </td>
-                        <td className="py-3 px-4 font-bold text-white">${ord.total.toFixed(2)}</td>
+                        <td className="py-3 px-4 font-bold text-white">{ord.total.toLocaleString()} ETB</td>
                         <td className="py-3 px-4">
                           <span
                             className={`px-2 py-0.5 rounded text-[10px] font-bold ${
@@ -663,7 +663,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                           <td className="py-3 px-4 max-w-[200px] truncate">
                             {ord.items.map((i) => `${i.quantity}x ${i.name}`).join(', ')}
                           </td>
-                          <td className="py-3 px-4 font-bold text-white">${ord.total.toFixed(2)}</td>
+                          <td className="py-3 px-4 font-bold text-white">{ord.total.toLocaleString()} ETB</td>
                           <td className="py-3 px-4">
                             <span
                               className={`px-2.5 py-1 rounded text-[10px] font-bold inline-block ${
@@ -799,7 +799,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                         </h4>
                       </div>
                       <span className="font-sans font-bold text-amber-400 text-sm block mt-0.5">
-                        ${dish.price.toFixed(2)}
+                        {dish.price.toLocaleString()} ETB
                       </span>
                       <p className="text-xs text-zinc-400 line-clamp-2 mt-1">{dish.description}</p>
                     </div>
@@ -966,12 +966,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                     className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500"
                   >
                     <option value="PERCENTAGE">Percentage (%)</option>
-                    <option value="FIXED">Fixed Amount ($)</option>
+                    <option value="FIXED">Fixed Amount (ETB)</option>
                   </select>
                 </div>
 
                 <div>
-                  <label className="text-[11px] text-zinc-400 block mb-1">Min Order ($)</label>
+                  <label className="text-[11px] text-zinc-400 block mb-1">Min Order (ETB)</label>
                   <input
                     type="number"
                     min={0}
@@ -1023,7 +1023,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                     </div>
                     <div className="flex justify-between">
                       <span>Min Order Required:</span>
-                      <span className="text-white">${c.minOrderAmount.toFixed(2)}</span>
+                      <span className="text-white">{c.minOrderAmount.toLocaleString()} ETB</span>
                     </div>
                   </div>
 
@@ -1050,12 +1050,12 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                   Gross Platform Revenue
                 </span>
                 <p className="text-3xl font-black font-sans text-white">
-                  ${totalRevenue.toFixed(2)}
+                  {totalRevenue.toLocaleString()} ETB
                 </p>
                 <p className="text-xs text-zinc-400">
                   Average Order Value:{' '}
                   <strong className="text-emerald-400">
-                    ${orders.length > 0 ? (totalRevenue / orders.length).toFixed(2) : '0.00'}
+                    {orders.length > 0 ? (totalRevenue / orders.length).toFixed(0) : '0'} ETB
                   </strong>
                 </p>
               </div>
@@ -1112,7 +1112,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                       <span className="font-semibold text-white">
                         #{idx + 1} {item.name}
                       </span>
-                      <span className="text-amber-400 font-bold">${item.price.toFixed(2)}</span>
+                      <span className="text-amber-400 font-bold">{item.price.toLocaleString()} ETB</span>
                     </div>
                     <div className="w-full h-2 bg-zinc-800 rounded-full overflow-hidden">
                       <div
@@ -1179,10 +1179,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-zinc-300 font-bold block mb-1">Delivery Fee ($)</label>
+                  <label className="text-zinc-300 font-bold block mb-1">Delivery Fee (ETB)</label>
                   <input
                     type="number"
-                    step="0.5"
+                    step="10"
                     value={settings.deliveryFee}
                     onChange={(e) =>
                       setSettings({ ...settings, deliveryFee: Number(e.target.value) })
@@ -1192,7 +1192,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                 </div>
 
                 <div>
-                  <label className="text-zinc-300 font-bold block mb-1">Min Order for Delivery ($)</label>
+                  <label className="text-zinc-300 font-bold block mb-1">Min Order for Delivery (ETB)</label>
                   <input
                     type="number"
                     step="1"
@@ -1294,7 +1294,7 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                       )}
                     </div>
                     <span className="font-mono text-zinc-300">
-                      ${item.totalPrice.toFixed(2)}
+                      {item.totalPrice.toLocaleString()} ETB
                     </span>
                   </div>
                 ))}
@@ -1401,10 +1401,10 @@ export const AdminDashboard: React.FC<AdminDashboardProps> = ({ onBackToCustomer
                 </div>
 
                 <div>
-                  <label className="text-zinc-300 font-bold block mb-1">Price ($)</label>
+                  <label className="text-zinc-300 font-bold block mb-1">Price (ETB)</label>
                   <input
                     type="number"
-                    step="0.5"
+                    step="10"
                     required
                     value={itemForm.price}
                     onChange={(e) => setItemForm({ ...itemForm, price: Number(e.target.value) })}

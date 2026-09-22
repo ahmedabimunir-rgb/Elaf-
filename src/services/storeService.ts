@@ -20,13 +20,13 @@ import {
 } from '../data/seedData';
 
 const STORAGE_KEYS = {
-  CATEGORIES: 'elaf_categories_v1',
-  MENU_ITEMS: 'elaf_menu_items_v1',
-  ORDERS: 'elaf_orders_v1',
-  COUPONS: 'elaf_coupons_v1',
-  SETTINGS: 'elaf_settings_v1',
-  REVIEWS: 'elaf_reviews_v1',
-  USER: 'elaf_current_user_v1',
+  CATEGORIES: 'elaf_categories_v2',
+  MENU_ITEMS: 'elaf_menu_items_v2',
+  ORDERS: 'elaf_orders_v2',
+  COUPONS: 'elaf_coupons_v2',
+  SETTINGS: 'elaf_settings_v2',
+  REVIEWS: 'elaf_reviews_v2',
+  USER: 'elaf_current_user_v2',
 };
 
 // Safe JSON local storage reader

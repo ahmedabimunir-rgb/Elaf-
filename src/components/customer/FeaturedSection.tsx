@@ -103,7 +103,7 @@ export const FeaturedSection: React.FC<FeaturedSectionProps> = ({
                   <div>
                     <span className="text-[10px] text-zinc-500 uppercase tracking-wider block">Price</span>
                     <span className="text-xl font-bold text-white font-sans">
-                      ${dish.price.toFixed(2)}
+                      {dish.price.toLocaleString()} ETB
                     </span>
                   </div>
 

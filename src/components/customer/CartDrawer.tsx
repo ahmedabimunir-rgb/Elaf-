@@ -206,7 +206,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
                           {item.selectedAddons.map((addon) => (
                             <div key={addon.id} className="flex justify-between text-zinc-400">
                               <span>+ {addon.name}</span>
-                              <span className="text-amber-400">+${addon.price.toFixed(2)}</span>
+                              <span className="text-amber-400">+{addon.price.toLocaleString()} ETB</span>
                             </div>
                           ))}
                         </div>
@@ -245,7 +245,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
 
                     <div className="text-right">
                       <span className="font-bold text-white text-sm font-sans">
-                        ${item.totalPrice.toFixed(2)}
+                        {item.totalPrice.toLocaleString()} ETB
                       </span>
                     </div>
                   </div>
@@ -280,7 +280,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
                         type="text"
                         value={inputCoupon}
                         onChange={(e) => setInputCoupon(e.target.value)}
-                        placeholder="Promo code (e.g. ELAF10, WELCOME5)"
+                        placeholder="Promo code (e.g. ELAF100, WELCOME10)"
                         className="w-full pl-9 pr-3 py-2 bg-zinc-950 border border-zinc-700 text-xs text-white rounded-xl focus:outline-none focus:border-rose-500 uppercase placeholder:normal-case placeholder:text-zinc-500"
                       />
                     </div>
@@ -304,26 +304,26 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
               <div className="space-y-1.5 text-xs text-zinc-400 pt-2 border-t border-zinc-800/80">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span className="text-white font-medium">${subtotal.toFixed(2)}</span>
+                  <span className="text-white font-medium">{subtotal.toLocaleString()} ETB</span>
                 </div>
 
                 {discount > 0 && (
                   <div className="flex justify-between text-emerald-400">
                     <span>Discount ({appliedCouponCode})</span>
-                    <span>-${discount.toFixed(2)}</span>
+                    <span>-{discount.toLocaleString()} ETB</span>
                   </div>
                 )}
 
                 {orderType === 'DELIVERY' && (
                   <div className="flex justify-between">
                     <span>Estimated Delivery Fee</span>
-                    <span className="text-white font-medium">${deliveryFee.toFixed(2)}</span>
+                    <span className="text-white font-medium">{deliveryFee.toLocaleString()} ETB</span>
                   </div>
                 )}
 
                 <div className="flex justify-between text-sm font-bold text-white pt-2 border-t border-zinc-800">
                   <span>Total</span>
-                  <span className="text-base text-amber-400 font-sans">${total.toFixed(2)}</span>
+                  <span className="text-base text-amber-400 font-sans">{total.toLocaleString()} ETB</span>
                 </div>
               </div>
 

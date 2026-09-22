@@ -408,23 +408,23 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             <h4 className="font-bold text-white uppercase tracking-wider mb-2">Order Breakdown</h4>
             <div className="flex justify-between text-zinc-400">
               <span>Items ({items.length})</span>
-              <span className="text-white">${subtotal.toFixed(2)}</span>
+              <span className="text-white">{subtotal.toLocaleString()} ETB</span>
             </div>
             {discount > 0 && (
               <div className="flex justify-between text-emerald-400">
                 <span>Coupon Discount ({appliedCouponCode})</span>
-                <span>-${discount.toFixed(2)}</span>
+                <span>-{discount.toLocaleString()} ETB</span>
               </div>
             )}
             {orderType === 'DELIVERY' && (
               <div className="flex justify-between text-zinc-400">
                 <span>Delivery Fee</span>
-                <span className="text-white">${deliveryFee.toFixed(2)}</span>
+                <span className="text-white">{deliveryFee.toLocaleString()} ETB</span>
               </div>
             )}
             <div className="pt-2 border-t border-zinc-800 flex justify-between text-sm font-bold text-white">
               <span>Grand Total</span>
-              <span className="text-base text-amber-400 font-sans">${total.toFixed(2)}</span>
+              <span className="text-base text-amber-400 font-sans">{total.toLocaleString()} ETB</span>
             </div>
           </div>
 
@@ -437,7 +437,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
             {isSubmitting ? (
               <span>Verifying & Placing Order...</span>
             ) : (
-              <span>Place Order (${total.toFixed(2)})</span>
+              <span>Place Order ({total.toLocaleString()} ETB)</span>
             )}
           </button>
         </form>

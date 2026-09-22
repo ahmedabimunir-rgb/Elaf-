@@ -230,7 +230,7 @@ export const MenuBrowser: React.FC<MenuBrowserProps> = ({
                   <div>
                     <span className="text-[10px] text-zinc-500 block uppercase tracking-wider">Price</span>
                     <span className="text-lg font-bold text-white font-sans">
-                      ${dish.price.toFixed(2)}
+                      {dish.price.toLocaleString()} ETB
                     </span>
                   </div>
 

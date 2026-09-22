@@ -16,6 +16,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   featuredDishes,
   onSelectDish,
 }) => {
+  const signatureDish = featuredDishes[0];
+
   return (
     <section className="relative w-full overflow-hidden bg-zinc-950 pt-8 pb-16 lg:py-24 border-b border-zinc-900">
       {/* Ambient background glows */}
@@ -103,28 +105,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                   <ElafLogo size="sm" showText={false} />
                   <div>
                     <span className="text-xs text-rose-400 font-bold tracking-wider uppercase block">Chef's Signature</span>
-                    <h3 className="text-white font-serif font-bold text-sm">Flame-Grilled Peri Chicken</h3>
+                    <h3 className="text-white font-serif font-bold text-sm">
+                      {signatureDish?.name || 'Full Fried Chicken with Rice'}
+                    </h3>
                   </div>
                 </div>
                 <span className="px-2.5 py-1 bg-rose-600/20 text-rose-400 border border-rose-600/30 rounded-full text-xs font-bold">
-                  $18.50
+                  {signatureDish ? `${signatureDish.price.toLocaleString()} ETB` : '1,400 ETB'}
                 </span>
               </div>
 
               {/* Main Dish Imagery */}
               <div className="relative my-4 aspect-4/3 rounded-2xl overflow-hidden border border-zinc-800 group">
                 <img
-                  src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80"
-                  alt="Elaf Flame-Grilled Chicken"
+                  src={
+                    signatureDish?.imageUrl ||
+                    'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80'
+                  }
+                  alt={signatureDish?.name || 'Elaf Signature Dish'}
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent" />
                 <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-zinc-200">
                   <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
-                    <Flame className="w-3.5 h-3.5 text-rose-500" /> 24hr Marinade
+                    <Flame className="w-3.5 h-3.5 text-rose-500" /> Slow Braised & Roasted
                   </span>
                   <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
-                    <Clock className="w-3.5 h-3.5 text-amber-400" /> 25 min prep
+                    <Clock className="w-3.5 h-3.5 text-amber-400" /> Fresh Daily
                   </span>
                 </div>
               </div>
@@ -151,7 +158,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                           {dish.name}
                         </p>
                         <p className="text-[11px] font-bold text-amber-400">
-                          ${dish.price.toFixed(2)}
+                          {dish.price.toLocaleString()} ETB
                         </p>
                       </div>
                     </button>
@@ -162,11 +169,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               {/* Instant Customize CTA */}
               <button
                 onClick={() => {
-                  if (featuredDishes[0]) onSelectDish(featuredDishes[0]);
+                  if (signatureDish) onSelectDish(signatureDish);
                 }}
                 className="mt-4 w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-md"
               >
-                Customize & Add Signature Chicken ($18.50)
+                Customize & Order {signatureDish ? `(${signatureDish.price.toLocaleString()} ETB)` : ''}
               </button>
             </div>
           </div>

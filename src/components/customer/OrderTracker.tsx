@@ -247,7 +247,7 @@ export const OrderTracker: React.FC<OrderTrackerProps> = ({
                       )}
                     </div>
                     <span className="font-mono text-zinc-300">
-                      ${item.totalPrice.toFixed(2)}
+                      {item.totalPrice.toLocaleString()} ETB
                     </span>
                   </div>
                 ))}
@@ -255,7 +255,7 @@ export const OrderTracker: React.FC<OrderTrackerProps> = ({
 
               <div className="pt-2 border-t border-zinc-800 flex justify-between font-bold text-sm text-white">
                 <span>Total Paid / Due</span>
-                <span className="text-amber-400">${currentOrder.total.toFixed(2)}</span>
+                <span className="text-amber-400">{currentOrder.total.toLocaleString()} ETB</span>
               </div>
             </div>
 
