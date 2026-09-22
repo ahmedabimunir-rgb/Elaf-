@@ -24,9 +24,9 @@ const STORAGE_KEYS = {
   MENU_ITEMS: 'elaf_menu_items_v2',
   ORDERS: 'elaf_orders_v2',
   COUPONS: 'elaf_coupons_v2',
-  SETTINGS: 'elaf_settings_v2',
+  SETTINGS: 'elaf_settings_v3',
   REVIEWS: 'elaf_reviews_v2',
-  USER: 'elaf_current_user_v2',
+  USER: 'elaf_current_user_v3',
 };
 
 // Safe JSON local storage reader
@@ -466,7 +466,7 @@ export class StoreService {
       id: 'demo-user-1',
       name: 'Ahmed Munir',
       email: 'ahmed@example.com',
-      phone: '+251 911 000 111',
+      phone: '0912455273',
       role: 'CUSTOMER',
       createdAt: '2026-09-01T00:00:00Z',
     };

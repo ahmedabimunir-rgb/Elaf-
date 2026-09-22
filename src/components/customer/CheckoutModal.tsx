@@ -48,9 +48,9 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
 
   // Form states
   const [customerName, setCustomerName] = useState(user.name || '');
-  const [customerPhone, setCustomerPhone] = useState(user.phone || '+251 9');
+  const [customerPhone, setCustomerPhone] = useState(user.phone || '0912455273');
   const [customerEmail, setCustomerEmail] = useState(user.email || '');
-  const [deliveryAddress, setDeliveryAddress] = useState('Bole Medhanialem area, Addis Ababa');
+  const [deliveryAddress, setDeliveryAddress] = useState('Shashe Garage area, Harar');
   const [deliveryNotes, setDeliveryNotes] = useState('');
   const [specialInstructions, setSpecialInstructions] = useState('');
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('CASH_ON_DELIVERY');
@@ -231,7 +231,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                   required
                   value={customerPhone}
                   onChange={(e) => setCustomerPhone(e.target.value)}
-                  placeholder="+251 9XX XXX XXX"
+                  placeholder="e.g. 0912455273"
                   className="w-full px-3.5 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500 placeholder:text-zinc-600"
                 />
               </div>
@@ -263,7 +263,7 @@ export const CheckoutModal: React.FC<CheckoutModalProps> = ({
                     required
                     value={deliveryAddress}
                     onChange={(e) => setDeliveryAddress(e.target.value)}
-                    placeholder="e.g. Bole Medhanialem, next to Edna Mall, House 45"
+                    placeholder="e.g. Shashe Garage area, Harar, near House 45"
                     className="w-full px-3.5 py-2 bg-zinc-900 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:border-rose-500 placeholder:text-zinc-600"
                   />
                 </div>

@@ -49,7 +49,7 @@ export const StorySection: React.FC = () => {
             </p>
 
             <p className="text-sm text-zinc-400 leading-relaxed font-light">
-              Whether you are dining in our vibrant Bole restaurant, picking up a quick family feast, or ordering hot delivery to your doorstep, every single plate receives relentless attention to detail.
+              Whether you are dining in our restaurant at Shashe Garage in Harar, picking up a quick family feast, or ordering hot delivery to your doorstep, every single plate receives relentless attention to detail.
             </p>
 
             <div className="pt-2">

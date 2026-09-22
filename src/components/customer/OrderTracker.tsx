@@ -159,7 +159,11 @@ export const OrderTracker: React.FC<OrderTrackerProps> = ({
               <div className="p-4 bg-red-950/40 border border-red-800/80 rounded-2xl text-center space-y-2">
                 <h4 className="text-sm font-bold text-red-300">This Order Has Been Cancelled</h4>
                 <p className="text-xs text-red-200/80">
-                  Please reach out to restaurant reception at +251 911 234 567 if you need assistance.
+                  Please reach out to restaurant reception at{' '}
+                  <a href={`tel:${StoreService.getSettings().phone || '0912455273'}`} className="underline font-bold">
+                    {StoreService.getSettings().phone || '0912455273'}
+                  </a>{' '}
+                  if you need assistance.
                 </p>
               </div>
             ) : (

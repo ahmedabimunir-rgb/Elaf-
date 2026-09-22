@@ -39,14 +39,17 @@ export const Header: React.FC<HeaderProps> = ({
       <div className="hidden md:flex items-center justify-between px-6 py-1.5 bg-zinc-900/90 text-xs text-zinc-400 border-b border-zinc-800/40">
         <div className="flex items-center gap-6">
           <span className="flex items-center gap-1.5 text-zinc-300">
-            <MapPin className="w-3.5 h-3.5 text-rose-500" /> Bole Medhanialem, Addis Ababa
+            <MapPin className="w-3.5 h-3.5 text-rose-500" /> Shashe Garage, Harar, Ethiopia
           </span>
           <span className="flex items-center gap-1.5">
             <Clock className="w-3.5 h-3.5 text-amber-500" /> Open: 8:00 AM – 11:30 PM Daily
           </span>
-          <span className="flex items-center gap-1.5 text-zinc-400">
-            <Phone className="w-3.5 h-3.5 text-emerald-500" /> +251 911 234 567
-          </span>
+          <a
+            href="tel:0912455273"
+            className="flex items-center gap-1.5 text-zinc-400 hover:text-white transition-colors"
+          >
+            <Phone className="w-3.5 h-3.5 text-emerald-500" /> 0912455273
+          </a>
         </div>
 
         <div className="flex items-center gap-4">
@@ -219,6 +222,18 @@ export const Header: React.FC<HeaderProps> = ({
               <span>Full-Stack Architecture & Learning Guide</span>
               <BookOpen className="w-4 h-4" />
             </button>
+
+            <div className="pt-2 border-t border-zinc-800 flex flex-col gap-1.5 text-xs text-zinc-400">
+              <span className="flex items-center gap-1.5 text-zinc-300">
+                <MapPin className="w-3.5 h-3.5 text-rose-500 shrink-0" /> Shashe Garage, Harar, Ethiopia
+              </span>
+              <a
+                href="tel:0912455273"
+                className="flex items-center gap-1.5 text-zinc-300 hover:text-white font-medium"
+              >
+                <Phone className="w-3.5 h-3.5 text-emerald-500 shrink-0" /> 0912455273
+              </a>
+            </div>
           </div>
         </div>
       )}
