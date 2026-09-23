@@ -1,6 +1,6 @@
 {
   "name": "Elaf Restaurant",
-  "description": "Premium full-stack restaurant online ordering and admin management platform for Elaf Restaurant.",
+  "description": "Authentic digital menu and pricing website for Elaf Restaurant in Harar, Ethiopia.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

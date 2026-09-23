@@ -31,14 +31,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenArchitectureMo
               onClick={() => onNavigate('menu')}
               className="px-5 py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold uppercase tracking-wider rounded-lg shadow-lg shadow-rose-950 transition-all"
             >
-              Order Online Now
+              Browse Full Menu
             </button>
-            <button
-              onClick={onOpenArchitectureModal}
-              className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-medium rounded-lg border border-zinc-700 transition-all"
+            <a
+              href="tel:0912455273"
+              className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold rounded-lg border border-zinc-700 transition-all flex items-center gap-1.5"
             >
-              View System Architecture
-            </button>
+              <Phone className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Call: 0912455273</span>
+            </a>
           </div>
         </div>
       </div>
@@ -136,12 +137,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenArchitectureMo
                 </button>
               </li>
               <li>
-                <button
-                  onClick={() => onNavigate('admin')}
-                  className="hover:text-rose-400 transition-colors text-amber-400/90 font-medium"
+                <a
+                  href="tel:0912455273"
+                  className="hover:text-rose-400 transition-colors text-amber-400/90 font-medium flex items-center gap-1.5"
                 >
-                  Staff / Admin Management Portal
-                </button>
+                  <Phone className="w-3 h-3" /> Direct Call: 0912455273
+                </a>
               </li>
             </ul>
           </div>

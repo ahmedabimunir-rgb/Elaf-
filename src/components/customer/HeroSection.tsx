@@ -1,17 +1,16 @@
 import React from 'react';
 import { ElafLogo } from '../common/ElafLogo';
-import { Flame, Clock, Star, ArrowRight, ShieldCheck, Sparkles, ChefHat } from 'lucide-react';
+import { Flame, Clock, Star, ArrowRight, ShieldCheck, Sparkles, ChefHat, Phone, Info } from 'lucide-react';
 import { MenuItem } from '../../types';
 
 interface HeroSectionProps {
-  onOrderNow: () => void;
+  onOrderNow?: () => void;
   onExploreMenu: () => void;
   featuredDishes: MenuItem[];
   onSelectDish: (dish: MenuItem) => void;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
-  onOrderNow,
   onExploreMenu,
   featuredDishes,
   onSelectDish,
@@ -50,22 +49,22 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             {/* CTAs */}
             <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
               <button
-                onClick={onOrderNow}
-                id="hero-order-now-button"
+                onClick={onExploreMenu}
+                id="hero-view-menu-button"
                 className="w-full sm:w-auto px-8 py-4 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold rounded-xl shadow-xl shadow-rose-950/50 flex items-center justify-center gap-3 transition-all group"
               >
-                <span>Order Online Now</span>
+                <ChefHat className="w-5 h-5" />
+                <span>Explore Full Menu</span>
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </button>
 
-              <button
-                onClick={onExploreMenu}
-                id="hero-view-menu-button"
+              <a
+                href="tel:0912455273"
                 className="w-full sm:w-auto px-8 py-4 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 hover:text-white font-semibold rounded-xl border border-zinc-800 transition-all flex items-center justify-center gap-2"
               >
-                <ChefHat className="w-4 h-4 text-amber-400" />
-                <span>Explore Full Menu</span>
-              </button>
+                <Phone className="w-4 h-4 text-emerald-400" />
+                <span>Call Hotline: 0912455273</span>
+              </a>
             </div>
 
             {/* Trust Badges */}
@@ -96,84 +95,83 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </div>
           </div>
 
-          {/* Right Column: Visual Showcase featuring Elaf Logo and Signature Dish Spotlight */}
+          {/* Right Column: Visual Showcase featuring Elaf Brand & Menu Spotlight (Text & Price) */}
           <div className="lg:col-span-5 relative">
-            <div className="relative mx-auto max-w-md rounded-3xl p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-zinc-900 border border-zinc-800 shadow-2xl">
+            <div className="relative mx-auto max-w-md rounded-3xl p-6 bg-gradient-to-b from-zinc-900 via-zinc-950 to-zinc-900 border border-zinc-800 shadow-2xl space-y-5">
               {/* Top Card Badge */}
               <div className="flex items-center justify-between pb-4 border-b border-zinc-800/80">
                 <div className="flex items-center gap-3">
                   <ElafLogo size="sm" showText={false} />
                   <div>
                     <span className="text-xs text-rose-400 font-bold tracking-wider uppercase block">Chef's Signature</span>
-                    <h3 className="text-white font-serif font-bold text-sm">
+                    <h3 className="text-white font-serif font-bold text-base">
                       {signatureDish?.name || 'Full Fried Chicken with Rice'}
                     </h3>
                   </div>
                 </div>
-                <span className="px-2.5 py-1 bg-rose-600/20 text-rose-400 border border-rose-600/30 rounded-full text-xs font-bold">
+                <span className="px-3 py-1.5 bg-rose-600/20 text-rose-400 border border-rose-600/30 rounded-full text-xs font-bold whitespace-nowrap">
                   {signatureDish ? `${signatureDish.price.toLocaleString()} ETB` : '1,400 ETB'}
                 </span>
               </div>
 
-              {/* Main Dish Imagery */}
-              <div className="relative my-4 aspect-4/3 rounded-2xl overflow-hidden border border-zinc-800 group">
-                <img
-                  src={
-                    signatureDish?.imageUrl ||
-                    'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?auto=format&fit=crop&w=800&q=80'
-                  }
-                  alt={signatureDish?.name || 'Elaf Signature Dish'}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent" />
-                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between text-xs text-zinc-200">
-                  <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
+              {/* Main Dish Spotlight Card without image */}
+              <div className="p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800/90 space-y-3">
+                <div className="flex items-center justify-between text-xs text-zinc-300">
+                  <span className="flex items-center gap-1 text-rose-400 font-semibold">
                     <Flame className="w-3.5 h-3.5 text-rose-500" /> Slow Braised & Roasted
                   </span>
-                  <span className="flex items-center gap-1 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-lg">
+                  <span className="flex items-center gap-1 text-amber-400 font-semibold">
                     <Clock className="w-3.5 h-3.5 text-amber-400" /> Fresh Daily
+                  </span>
+                </div>
+
+                <p className="text-xs text-zinc-400 leading-relaxed font-light">
+                  {signatureDish?.description ||
+                    'Tender seasoned chicken marinated for 24 hours, slow-roasted with authentic Ethiopian spices and served alongside fragrant seasoned basmati rice.'}
+                </p>
+
+                <div className="flex items-baseline justify-between pt-2 border-t border-zinc-800/60">
+                  <span className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">
+                    Spotlight Price
+                  </span>
+                  <span className="text-2xl font-black text-amber-400 font-sans tracking-tight">
+                    {signatureDish ? `${signatureDish.price.toLocaleString()} ETB` : '1,400 ETB'}
                   </span>
                 </div>
               </div>
 
-              {/* Quick dish selection carousel / thumbnails */}
+              {/* Popular Picks: Pure Dish Name & Price */}
               <div className="space-y-2">
                 <span className="text-xs text-zinc-400 font-medium flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Popular Picks Right Now:
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Popular Menu Choices:
                 </span>
                 <div className="grid grid-cols-2 gap-2">
                   {featuredDishes.slice(1, 3).map((dish) => (
                     <button
                       key={dish.id}
                       onClick={() => onSelectDish(dish)}
-                      className="flex items-center gap-2 p-2 bg-zinc-900/80 hover:bg-zinc-800 rounded-xl border border-zinc-800/80 text-left transition-colors group"
+                      className="p-3 bg-zinc-900/80 hover:bg-zinc-800 rounded-xl border border-zinc-800/80 text-left transition-colors group flex flex-col justify-between"
                     >
-                      <img
-                        src={dish.imageUrl}
-                        alt={dish.name}
-                        className="w-10 h-10 rounded-lg object-cover flex-shrink-0"
-                      />
-                      <div className="min-w-0 flex-1">
-                        <p className="text-xs font-semibold text-zinc-200 truncate group-hover:text-rose-400">
-                          {dish.name}
-                        </p>
-                        <p className="text-[11px] font-bold text-amber-400">
-                          {dish.price.toLocaleString()} ETB
-                        </p>
-                      </div>
+                      <p className="text-xs font-semibold text-zinc-200 group-hover:text-rose-400 line-clamp-1">
+                        {dish.name}
+                      </p>
+                      <p className="text-xs font-bold text-amber-400 mt-1.5">
+                        {dish.price.toLocaleString()} ETB
+                      </p>
                     </button>
                   ))}
                 </div>
               </div>
 
-              {/* Instant Customize CTA */}
+              {/* Dish Details Action */}
               <button
                 onClick={() => {
                   if (signatureDish) onSelectDish(signatureDish);
                 }}
-                className="mt-4 w-full py-2.5 bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors shadow-md"
+                className="w-full py-3 bg-zinc-800 hover:bg-zinc-700 active:scale-95 text-white text-xs font-bold uppercase tracking-wider rounded-xl transition-colors border border-zinc-700 flex items-center justify-center gap-2"
               >
-                Customize & Order {signatureDish ? `(${signatureDish.price.toLocaleString()} ETB)` : ''}
+                <Info className="w-3.5 h-3.5 text-rose-400" />
+                <span>View Details & Ingredients</span>
               </button>
             </div>
           </div>

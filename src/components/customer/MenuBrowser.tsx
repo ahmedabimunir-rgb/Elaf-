@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Category, MenuItem } from '../../types';
-import { Search, Flame, Star, Clock, Plus, X, AlertCircle } from 'lucide-react';
+import { Search, Flame, Star, Clock, Info, X, AlertCircle } from 'lucide-react';
 
 interface MenuBrowserProps {
   categories: Category[];
@@ -52,7 +52,7 @@ export const MenuBrowser: React.FC<MenuBrowserProps> = ({
               Our Full Menu
             </h1>
             <p className="text-xs sm:text-sm text-zinc-400 mt-1">
-              Browse by category, search your favorite ingredients, and customize your feast.
+              Browse by category, discover ingredients, and view current prices in ETB.
             </p>
           </div>
 
@@ -137,115 +137,97 @@ export const MenuBrowser: React.FC<MenuBrowserProps> = ({
         )}
 
         {/* Items Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredItems.map((dish) => (
             <div
               key={dish.id}
-              className={`bg-zinc-900/60 rounded-2xl border transition-all duration-300 flex flex-col justify-between overflow-hidden group ${
+              className={`bg-zinc-900/70 hover:bg-zinc-900 rounded-2xl border transition-all duration-200 flex flex-col justify-between p-5 group relative ${
                 dish.isAvailable
-                  ? 'border-zinc-800 hover:border-zinc-700'
-                  : 'border-zinc-800/40 opacity-70 grayscale-[30%]'
+                  ? 'border-zinc-800 hover:border-zinc-700 shadow-sm hover:shadow-lg'
+                  : 'border-zinc-800/40 opacity-70 bg-zinc-950/60'
               }`}
             >
-              {/* Image & Badges */}
-              <div
-                className="relative aspect-4/3 overflow-hidden cursor-pointer"
-                onClick={() => dish.isAvailable && onSelectDish(dish)}
-              >
-                <img
-                  src={dish.imageUrl}
-                  alt={dish.name}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent opacity-80" />
-
-                {/* Unavailable overlay */}
-                {!dish.isAvailable && (
-                  <div className="absolute inset-0 bg-zinc-950/80 backdrop-blur-[2px] flex items-center justify-center p-4 text-center">
-                    <span className="px-3 py-1 bg-red-900/80 border border-red-700 text-red-200 text-xs font-bold rounded-lg uppercase tracking-wider">
-                      Currently Unavailable
-                    </span>
-                  </div>
-                )}
-
-                {/* Floating tags */}
-                {dish.isAvailable && (
-                  <div className="absolute top-2.5 left-2.5 flex flex-wrap gap-1">
+              <div className="space-y-3">
+                {/* Header row: Status tags & prep time */}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex flex-wrap gap-1.5">
                     {dish.isFeatured && (
-                      <span className="px-2 py-0.5 bg-rose-600/90 text-white text-[10px] font-bold rounded-md shadow flex items-center gap-1">
+                      <span className="px-2 py-0.5 bg-rose-600/20 border border-rose-500/30 text-rose-400 text-[10px] font-bold rounded-md flex items-center gap-1">
                         <Flame className="w-2.5 h-2.5" /> Featured
                       </span>
                     )}
                     {dish.isPopular && (
-                      <span className="px-2 py-0.5 bg-amber-500/90 text-zinc-950 text-[10px] font-bold rounded-md shadow flex items-center gap-1">
-                        <Star className="w-2.5 h-2.5 fill-zinc-950" /> Popular
+                      <span className="px-2 py-0.5 bg-amber-500/20 border border-amber-500/30 text-amber-300 text-[10px] font-bold rounded-md flex items-center gap-1">
+                        <Star className="w-2.5 h-2.5 fill-amber-400" /> Popular
+                      </span>
+                    )}
+                    {!dish.isAvailable && (
+                      <span className="px-2 py-0.5 bg-red-950 text-red-400 border border-red-800/60 text-[10px] font-bold rounded-md">
+                        Sold Out
                       </span>
                     )}
                   </div>
-                )}
 
-                <div className="absolute bottom-2.5 right-2.5 bg-zinc-950/80 text-zinc-300 text-[11px] px-2 py-0.5 rounded-md flex items-center gap-1 backdrop-blur-sm">
-                  <Clock className="w-3 h-3 text-amber-400" />
-                  <span>{dish.prepTimeMinutes}m</span>
+                  <div className="flex items-center gap-1 text-zinc-400 text-[11px]">
+                    <Clock className="w-3 h-3 text-amber-400" />
+                    <span>{dish.prepTimeMinutes}m</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Body */}
-              <div className="p-4 flex-1 flex flex-col justify-between space-y-3">
-                <div className="space-y-1.5">
+                {/* Food Name & Description */}
+                <div className="pt-1">
                   <h3
                     onClick={() => dish.isAvailable && onSelectDish(dish)}
-                    className="font-serif font-bold text-base text-white group-hover:text-rose-400 transition-colors cursor-pointer line-clamp-1"
+                    className="font-serif font-bold text-lg text-white group-hover:text-rose-400 transition-colors cursor-pointer leading-snug"
                   >
                     {dish.name}
                   </h3>
 
-                  <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed font-light">
+                  <p className="text-xs text-zinc-400 line-clamp-2 leading-relaxed font-light mt-1.5">
                     {dish.description}
                   </p>
-
-                  {/* Ingredients preview pill */}
-                  {dish.ingredients && dish.ingredients.length > 0 && (
-                    <div className="pt-1 flex flex-wrap gap-1">
-                      {dish.ingredients.slice(0, 3).map((ing, i) => (
-                        <span
-                          key={i}
-                          className="text-[10px] text-zinc-500 bg-zinc-800/80 px-1.5 py-0.5 rounded"
-                        >
-                          {ing}
-                        </span>
-                      ))}
-                      {dish.ingredients.length > 3 && (
-                        <span className="text-[10px] text-zinc-500">
-                          +{dish.ingredients.length - 3} more
-                        </span>
-                      )}
-                    </div>
-                  )}
                 </div>
 
-                {/* Bottom Row */}
-                <div className="pt-3 border-t border-zinc-800/80 flex items-center justify-between">
-                  <div>
-                    <span className="text-[10px] text-zinc-500 block uppercase tracking-wider">Price</span>
-                    <span className="text-lg font-bold text-white font-sans">
-                      {dish.price.toLocaleString()} ETB
-                    </span>
+                {/* Ingredients preview */}
+                {dish.ingredients && dish.ingredients.length > 0 && (
+                  <div className="pt-1 flex flex-wrap gap-1">
+                    {dish.ingredients.slice(0, 3).map((ing, i) => (
+                      <span
+                        key={i}
+                        className="text-[10px] text-zinc-500 bg-zinc-800/60 px-2 py-0.5 rounded-md"
+                      >
+                        {ing}
+                      </span>
+                    ))}
+                    {dish.ingredients.length > 3 && (
+                      <span className="text-[10px] text-zinc-500 py-0.5">
+                        +{dish.ingredients.length - 3}
+                      </span>
+                    )}
                   </div>
+                )}
+              </div>
 
-                  {dish.isAvailable ? (
-                    <button
-                      onClick={() => onSelectDish(dish)}
-                      className="px-3.5 py-1.5 bg-rose-600 hover:bg-rose-500 active:scale-95 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-rose-950 flex items-center gap-1"
-                    >
-                      <Plus className="w-3.5 h-3.5" />
-                      <span>Add</span>
-                    </button>
-                  ) : (
-                    <span className="text-xs text-zinc-500 italic">Sold out</span>
-                  )}
+              {/* Bottom Row: Food Price & Details Button */}
+              <div className="pt-4 mt-4 border-t border-zinc-800/80 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] text-zinc-500 block uppercase tracking-wider font-semibold">
+                    Price
+                  </span>
+                  <span className="text-xl font-black text-amber-400 font-sans tracking-tight">
+                    {dish.price.toLocaleString()}{' '}
+                    <span className="text-xs text-zinc-400 font-bold">ETB</span>
+                  </span>
                 </div>
+
+                <button
+                  onClick={() => onSelectDish(dish)}
+                  className="px-3.5 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-zinc-200 hover:text-white text-xs font-semibold rounded-xl border border-zinc-700/80 transition-colors flex items-center gap-1.5"
+                  title="View ingredients and details"
+                >
+                  <Info className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Details</span>
+                </button>
               </div>
             </div>
           ))}

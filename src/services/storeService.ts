@@ -302,8 +302,155 @@ export class StoreService {
     const orders = this.getOrders();
     orders.unshift(newOrder);
     this.saveOrders(orders);
+    this.notifyOrderCreated(newOrder);
 
     return { success: true, order: newOrder };
+  }
+
+  /**
+   * Broadcasts a newly placed order to all listeners in this window,
+   * across open tabs via BroadcastChannel, and via localStorage storage event.
+   */
+  static notifyOrderCreated(newOrder: Order): void {
+    if (typeof window === 'undefined') return;
+
+    // 1. Same-window CustomEvent
+    try {
+      window.dispatchEvent(new CustomEvent('elaf_order_created', { detail: newOrder }));
+    } catch {}
+
+    // 2. Cross-tab BroadcastChannel
+    try {
+      if ('BroadcastChannel' in window) {
+        const channel = new BroadcastChannel('elaf_orders_channel');
+        channel.postMessage({ type: 'NEW_ORDER', order: newOrder, timestamp: Date.now() });
+        channel.close();
+      }
+    } catch {}
+
+    // 3. Cross-tab localStorage trigger for other browser tabs
+    try {
+      localStorage.setItem(
+        'elaf_order_event_ping',
+        JSON.stringify({
+          id: newOrder.id,
+          orderNumber: newOrder.orderNumber,
+          timestamp: Date.now(),
+        })
+      );
+    } catch {}
+  }
+
+  /**
+   * Subscribes to real-time incoming orders across all local channels.
+   * Returns an unsubscribe function for React useEffect cleanup.
+   */
+  static subscribeToNewOrders(callback: (order: Order) => void): () => void {
+    if (typeof window === 'undefined') return () => {};
+
+    // Same-window CustomEvent listener
+    const handleCustomEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<Order>;
+      if (customEvent.detail) {
+        callback(customEvent.detail);
+      }
+    };
+    window.addEventListener('elaf_order_created', handleCustomEvent);
+
+    // Cross-tab BroadcastChannel listener
+    let channel: BroadcastChannel | null = null;
+    try {
+      if ('BroadcastChannel' in window) {
+        channel = new BroadcastChannel('elaf_orders_channel');
+        channel.onmessage = (event) => {
+          if (event.data?.type === 'NEW_ORDER' && event.data?.order) {
+            callback(event.data.order);
+          }
+        };
+      }
+    } catch {}
+
+    // Cross-tab storage event listener
+    const handleStorageEvent = (e: StorageEvent) => {
+      if (e.key === 'elaf_order_event_ping' && e.newValue) {
+        try {
+          const pingData = JSON.parse(e.newValue);
+          const currentOrders = this.getOrders();
+          const target = currentOrders.find((o) => o.id === pingData.id) || currentOrders[0];
+          if (target) {
+            callback(target);
+          }
+        } catch {}
+      }
+    };
+    window.addEventListener('storage', handleStorageEvent);
+
+    return () => {
+      window.removeEventListener('elaf_order_created', handleCustomEvent);
+      window.removeEventListener('storage', handleStorageEvent);
+      if (channel) {
+        try {
+          channel.close();
+        } catch {}
+      }
+    };
+  }
+
+  /**
+   * Helper to simulate a realistic incoming customer order for staff testing.
+   */
+  static simulateTestOrder(): Order {
+    const menuItems = this.getMenuItems();
+    const dish = menuItems[0] || {
+      id: 'dish-1',
+      name: 'Full Fried Chicken with Rice',
+      price: 1400,
+    };
+
+    const randomNum = Math.floor(1000 + Math.random() * 9000);
+    const orderNumber = `ELAF-${randomNum}`;
+    const testNames = ['Fatima Ahmed', 'Yohannes Girma', 'Hanan Mohammed', 'Abdulkarim Ali', 'Selamawit Desta'];
+    const randomName = testNames[Math.floor(Math.random() * testNames.length)];
+    const types: OrderType[] = ['DELIVERY', 'DINE_IN', 'PICKUP'];
+    const randomType = types[Math.floor(Math.random() * types.length)];
+
+    const newOrder: Order = {
+      id: `ord-${Date.now()}`,
+      orderNumber,
+      customerName: randomName,
+      customerPhone: '0912455273',
+      orderType: randomType,
+      tableNumber: randomType === 'DINE_IN' ? `Table ${Math.floor(Math.random() * 12) + 1}` : undefined,
+      deliveryAddress: randomType === 'DELIVERY' ? 'Shashe Garage area, Harar' : undefined,
+      deliveryNotes: randomType === 'DELIVERY' ? 'Please call upon arrival' : undefined,
+      specialInstructions: 'Extra spicy sauce dip and fresh limes, please.',
+      items: [
+        {
+          id: `snap-${Date.now()}`,
+          menuItemId: dish.id,
+          name: dish.name,
+          unitPrice: dish.price,
+          quantity: 1,
+          totalPrice: dish.price,
+          addons: [{ name: 'Special House Sauce Dip', price: 50 }],
+        },
+      ],
+      subtotal: dish.price + 50,
+      deliveryFee: randomType === 'DELIVERY' ? 150 : 0,
+      discount: 0,
+      total: dish.price + 50 + (randomType === 'DELIVERY' ? 150 : 0),
+      paymentMethod: 'TELEBIRR',
+      paymentStatus: 'PAID',
+      orderStatus: 'PENDING',
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    const orders = this.getOrders();
+    orders.unshift(newOrder);
+    this.saveOrders(orders);
+    this.notifyOrderCreated(newOrder);
+    return newOrder;
   }
 
   static updateOrderStatus(orderId: string, newStatus: OrderStatus): Order | null {

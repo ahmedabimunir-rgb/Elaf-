@@ -179,16 +179,10 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ onProceedToCheckout }) =
                   key={item.id}
                   className="p-3.5 bg-zinc-900/70 border border-zinc-800/80 rounded-2xl flex flex-col space-y-2.5"
                 >
-                  <div className="flex items-start gap-3">
-                    <img
-                      src={item.menuItem.imageUrl}
-                      alt={item.menuItem.name}
-                      className="w-14 h-14 rounded-xl object-cover flex-shrink-0"
-                    />
-
+                  <div className="flex items-start justify-between gap-3">
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between gap-2">
-                        <h4 className="text-xs sm:text-sm font-semibold text-white truncate">
+                        <h4 className="text-sm font-semibold text-white truncate">
                           {item.menuItem.name}
                         </h4>
                         <button
